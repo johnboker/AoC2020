@@ -48,7 +48,6 @@ namespace AoC2020
             Console.WriteLine("Part 2: \n");
             Invoke(() => solution.Solve2(), out var timeSpan2);
             Console.WriteLine($"\nElapsed Time: {timeSpan2.TotalMilliseconds} ms\n");
-
         }
 
         public static void Invoke(Action action, out TimeSpan timeSpan)
