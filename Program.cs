@@ -42,20 +42,20 @@ namespace AoC2020
             await solution.ReadInput(file);
 
             Console.WriteLine("Part 1: \n");
-            Invoke(() => solution.Solve1(), out var timeSpan1);
-            Console.WriteLine($"\nElapsed Time: {timeSpan1.TotalMilliseconds} ms\n");
+            var ms1 = BenchmarkTime(solution.Solve1);
+            Console.WriteLine($"\nElapsed Time: {ms1} ms\n");
 
             Console.WriteLine("Part 2: \n");
-            Invoke(() => solution.Solve2(), out var timeSpan2);
-            Console.WriteLine($"\nElapsed Time: {timeSpan2.TotalMilliseconds} ms\n");
+            var ms2 = BenchmarkTime(solution.Solve2);
+            Console.WriteLine($"\nElapsed Time: {ms2} ms\n");
         }
 
-        public static void Invoke(Action action, out TimeSpan timeSpan)
+        public static double BenchmarkTime(Action action)
         {
             var stopwatch = Stopwatch.StartNew();
             action.Invoke();
             stopwatch.Stop();
-            timeSpan = stopwatch.Elapsed;
+            return stopwatch.Elapsed.TotalMilliseconds;
         }
 
         private static ISolution CreateSolutionForDay(int day)
