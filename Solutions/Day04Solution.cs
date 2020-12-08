@@ -62,7 +62,7 @@ namespace AoC2020.Solutions
                 return false;
             }
 
-            private string[] ValidEyeColors = {
+            private readonly string[] ValidEyeColors = {
                 "amb",
                 "blu",
                 "brn",
