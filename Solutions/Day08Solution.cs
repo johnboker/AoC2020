@@ -34,6 +34,22 @@ namespace AoC2020.Solutions
             Console.WriteLine(Computer1.Accumulator);
         }
 
+        public void Solve2()
+        {
+            for (var i = 0; i < Computer1.Instructions.Count(); i++)
+            {
+                if (SwapJmpNop(Computer1.Instructions[i]))
+                {
+                    if (Computer1.Run() == 0)
+                    {
+                        Console.WriteLine(Computer1.Accumulator);
+                        break;
+                    }
+                    SwapJmpNop(Computer1.Instructions[i]);
+                }
+            }
+        }
+
         private bool SwapJmpNop(Instruction instruction)
         {
             if (instruction.Operation == "jmp" || instruction.Operation == "nop")
@@ -42,24 +58,6 @@ namespace AoC2020.Solutions
                 return true;
             }
             return false;
-        }
-
-        public void Solve2()
-        {
-            for (var i = 0; i < Computer1.Instructions.Count(); i++)
-            {
-                var instruction = Computer1.Instructions[i];
-                if (!SwapJmpNop(instruction))
-                {
-                    continue;
-                }
-                if (Computer1.Run() == 0)
-                {
-                    Console.WriteLine(Computer1.Accumulator);
-                    break;
-                }
-                SwapJmpNop(instruction);
-            }
         }
 
         public class Computer
