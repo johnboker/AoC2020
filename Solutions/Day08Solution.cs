@@ -30,34 +30,35 @@ namespace AoC2020.Solutions
 
         public void Solve1()
         {
-            var (pc, acc) = Computer1.Run();
-            Console.WriteLine(acc);
+            Computer1.Run();
+            Console.WriteLine(Computer1.Accumulator);
         }
+
+        private bool SwapJmpNop(Instruction instruction)
+        {
+            if (instruction.Operation == "jmp" || instruction.Operation == "nop")
+            {
+                instruction.Operation = instruction.Operation == "jmp" ? "nop" : "jmp";
+                return true;
+            }
+            return false;
+        }
+
         public void Solve2()
         {
             for (var i = 0; i < Computer1.Instructions.Count(); i++)
             {
                 var instruction = Computer1.Instructions[i];
-                if (instruction.Operation == "jmp" || instruction.Operation == "nop")
-                {
-                    instruction.Operation = instruction.Operation == "jmp" ? "nop" : "jmp";
-                }
-                else
+                if (!SwapJmpNop(instruction))
                 {
                     continue;
                 }
-
-                var (pc, acc) = Computer1.Run();
-                if (pc >= Computer1.Instructions.Count())
+                if (Computer1.Run() == 0)
                 {
-                    Console.WriteLine(acc);
+                    Console.WriteLine(Computer1.Accumulator);
                     break;
                 }
-
-                if (instruction.Operation == "jmp" || instruction.Operation == "nop")
-                {
-                    instruction.Operation = instruction.Operation == "jmp" ? "nop" : "jmp";
-                }
+                SwapJmpNop(instruction);
             }
         }
 
@@ -72,12 +73,16 @@ namespace AoC2020.Solutions
             public int Accumulator { get; set; }
             public List<Instruction> Instructions { get; set; }
 
-            public (int pc, int acc) Run()
+            public void Reset()
             {
                 Accumulator = 0;
                 PC = 0;
                 Instructions.ForEach(i => i.VisitCount = 0);
+            }
 
+            public int Run()
+            {
+                Reset();
                 while (PC < Instructions.Count())
                 {
                     var instruction = Instructions[PC];
@@ -85,7 +90,7 @@ namespace AoC2020.Solutions
 
                     if (instruction.VisitCount > 1)
                     {
-                        return (PC, Accumulator);
+                        return PC - Instructions.Count();
                     }
 
                     switch (instruction.Operation)
@@ -104,7 +109,7 @@ namespace AoC2020.Solutions
 
                     PC++;
                 }
-                return (PC, Accumulator);
+                return 0;
             }
         }
 
