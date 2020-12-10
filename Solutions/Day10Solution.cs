@@ -32,9 +32,9 @@ namespace AoC2020.Solutions
         {
             var s = new decimal[Input.Count()];
             s[0] = 1;
-            foreach (var i in Enumerable.Range(1, Input.Count() - 1))
+            for (var i = 1; i < Input.Count(); i++)
             {
-                foreach (var j in Enumerable.Range(0, i))
+                for (var j = 0; j < i; j++)
                 {
                     if (Input[i] - Input[j] <= 3)
                     {
