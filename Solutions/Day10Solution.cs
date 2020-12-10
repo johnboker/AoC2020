@@ -30,9 +30,10 @@ namespace AoC2020.Solutions
 
         public void Solve2()
         {
-            var s = new decimal[Input.Count()];
+            var len = Input.Count();
+            var s = new decimal[len];
             s[0] = 1;
-            for (var i = 1; i < Input.Count(); i++)
+            for (var i = 1; i < len; i++)
             {
                 for (var j = 0; j < i; j++)
                 {
@@ -43,7 +44,7 @@ namespace AoC2020.Solutions
                 }
             }
 
-            Console.WriteLine(s.Last());
+            Console.WriteLine(s[len - 1]);
         }
     }
 }
