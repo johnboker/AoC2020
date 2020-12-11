@@ -200,11 +200,8 @@ namespace AoC2020.Solutions
         public void Solve1()
         {
             var seats = (char[,])Seats.Clone();
-
             int changes;
-
             using var gif = AnimatedGif.AnimatedGif.Create("animation-part1.gif", 100);
-
 
             do
             {
@@ -249,9 +246,7 @@ namespace AoC2020.Solutions
         public void Solve2()
         {
             var seats = (char[,])Seats.Clone();
-
             int changes;
-
             using var gif = AnimatedGif.AnimatedGif.Create("animation-part2.gif", 100);
 
             do
