@@ -208,7 +208,7 @@ namespace AoC2020.Solutions
             var seats = (char[,])Seats.Clone();
             int changes;
             using var gif = AnimatedGif.AnimatedGif.Create("animation-part1.gif", 100);
-
+            var i = 0;
             do
             {
                 var next = (char[,])seats.Clone();
@@ -239,10 +239,15 @@ namespace AoC2020.Solutions
                         }
                     }
                 }
-                var bitmap = CreateBitmap(next);
-                gif.AddFrame(bitmap, delay: -1, quality: AnimatedGif.GifQuality.Bit8);
+
+                if (i % 2 == 0)
+                {
+                    var bitmap = CreateBitmap(next);
+                    gif.AddFrame(bitmap, delay: 33, quality: AnimatedGif.GifQuality.Bit8);
+                }
 
                 seats = next;
+                i++;
             }
             while (changes > 0);
 
@@ -255,6 +260,7 @@ namespace AoC2020.Solutions
             int changes;
             using var gif = AnimatedGif.AnimatedGif.Create("animation-part2.gif", 100);
 
+            var i = 0;
             do
             {
                 var next = (char[,])seats.Clone();
@@ -285,11 +291,13 @@ namespace AoC2020.Solutions
                         }
                     }
                 }
-
-                var bitmap = CreateBitmap(next);
-                gif.AddFrame(bitmap, delay: -1, quality: AnimatedGif.GifQuality.Bit8);
-
+                if (i % 2 == 0)
+                {
+                    var bitmap = CreateBitmap(next);
+                    gif.AddFrame(bitmap, delay: 33, quality: AnimatedGif.GifQuality.Bit8);
+                }
                 seats = next;
+                i++;
             }
             while (changes > 0);
 
