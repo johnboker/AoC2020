@@ -41,7 +41,13 @@ namespace AoC2020.Solutions
 
         private Bitmap CreateBitmap(char[,] seats)
         {
-            var bitmap = new Bitmap(seats.GetLength(1), seats.GetLength(0));
+            var bitmap = new Bitmap((seats.GetLength(1) + 1) * 10, (seats.GetLength(0) + 1) * 10);
+            using var graphics = Graphics.FromImage(bitmap);
+
+            graphics.FillRectangle(new SolidBrush(Color.LightGray), 0, 0, bitmap.Width, bitmap.Height);
+            var pen = new Pen(Color.Black);
+            var brush = new SolidBrush(Color.Black);
+
             for (var r = 0; r < seats.GetLength(0); r++)
             {
                 for (var c = 0; c < seats.GetLength(1); c++)
@@ -49,13 +55,13 @@ namespace AoC2020.Solutions
                     var color = Color.Black;
                     if (seats[r, c] == 'L')
                     {
-                        color = Color.Green;
+                        graphics.DrawEllipse(pen, c * 10 + 5, r * 10 + 5, 8, 8);
                     }
                     else if (seats[r, c] == '#')
                     {
-                        color = Color.Red;
+
+                        graphics.FillEllipse(brush, c * 10 + 5, r * 10 + 5, 8, 8);
                     }
-                    bitmap.SetPixel(c, r, color);
                 }
             }
             return bitmap;
@@ -179,7 +185,7 @@ namespace AoC2020.Solutions
                 c--;
             }
 
-            //diagonal top left
+            //diagonal top right
             r = row - 1;
             c = col + 1;
             while (r >= 0 && c < cMax)
