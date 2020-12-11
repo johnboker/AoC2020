@@ -233,7 +233,7 @@ namespace AoC2020.Solutions
                         }
                     }
                 }
-                var bitmap = CreateBitmap(seats);
+                var bitmap = CreateBitmap(next);
                 gif.AddFrame(bitmap, delay: -1, quality: AnimatedGif.GifQuality.Bit8);
 
                 seats = next;
@@ -280,7 +280,7 @@ namespace AoC2020.Solutions
                     }
                 }
 
-                var bitmap = CreateBitmap(seats);
+                var bitmap = CreateBitmap(next);
                 gif.AddFrame(bitmap, delay: -1, quality: AnimatedGif.GifQuality.Bit8);
 
                 seats = next;
