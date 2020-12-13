@@ -14,7 +14,7 @@ namespace AoC2020.Solutions
         {
             var lines = await File.ReadAllLinesAsync(file);
             Timestamp0 = int.Parse(lines[0]);
-            Busses = lines[1].Split(',').Select(a => new Bus { Number = a == "x" ? -1 : int.Parse(a), StartTime = Timestamp0 }).ToList();
+            Busses = lines[1].Split(',').Select(a => new Bus { Number = a == "x" ? -1 : int.Parse(a) }).ToList();
 
             var offset = 0;
             foreach (var b in Busses)
@@ -49,17 +49,16 @@ namespace AoC2020.Solutions
         public void Solve2()
         {
             var incrememt = Busses[0].Number;
-            Busses.RemoveAt(0);
             var time = 0L;
-            foreach (var bus in Busses)
+            for (var i = 1; i < Busses.Count(); i++)
             {
-                var t = bus.Number;
+                var bus = Busses[i];
                 while (true)
                 {
                     time += incrememt;
-                    if ((time + bus.Offset) % t == 0)
+                    if (bus.DepartsAtTime(time + bus.Offset))
                     {
-                        incrememt *= t;
+                        incrememt *= bus.Number;
                         break;
                     }
                 }
@@ -71,9 +70,8 @@ namespace AoC2020.Solutions
         public class Bus
         {
             public long Offset { get; set; }
-            public long StartTime { get; set; }
             public long Number { get; set; }
-            public bool DepartsAtTime(int t)
+            public bool DepartsAtTime(long t)
             {
                 return t % Number == 0;
             }
