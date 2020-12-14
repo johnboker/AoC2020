@@ -32,7 +32,6 @@ namespace AoC2020.Solutions
                     {
                         Mask = mask,
                         Address = loc,
-                        Value = val,
                         ValueString = Convert.ToString((long)val, 2).PadLeft(36, '0'),
                         AddressString = Convert.ToString((long)loc, 2).PadLeft(36, '0')
                     };
@@ -44,18 +43,18 @@ namespace AoC2020.Solutions
         public void Solve1()
         {
             var memory = new Dictionary<decimal, string>();
-            Memories.ForEach(m => memory[m.Address] = ApplyMask1(m.ValueString, m.Mask));
+            Memories.ForEach(m => memory[m.Address] = m.ApplyMask1());
             Console.WriteLine(memory.Sum(a => (decimal)Convert.ToUInt64(a.Value, 2)));
         }
 
         public void Solve2()
         {
             var memory = new Dictionary<decimal, string>();
-            Memories.ForEach(m => Expand(ApplyMask2(m.AddressString, m.Mask)).ForEach(a => memory[Convert.ToUInt64(a, 2)] = m.ValueString));
+            Memories.ForEach(m => Expand(m.ApplyMask2()).ForEach(a => memory[Convert.ToUInt64(a, 2)] = m.ValueString));
             Console.WriteLine(memory.Sum(a => (decimal)Convert.ToUInt64(a.Value, 2)));
         }
 
-        public List<string> Expand(string bits)
+        public static List<string> Expand(string bits)
         {
             var result = new List<string>() { bits };
             int i = 0;
@@ -76,16 +75,6 @@ namespace AoC2020.Solutions
             }
             return result;
         }
-
-        public string ApplyMask2(string value, string mask)
-        {
-            return new string(mask.Select((c, i) => c == '0' ? value[i] : c == '1' ? '1' : 'X').ToArray());
-        }
-
-        public string ApplyMask1(string value, string mask)
-        {
-            return new string(mask.Select((c, i) => c == 'X' ? value[i] : c == '1' ? '1' : '0').ToArray());
-        }
     }
 
     public class Memory
@@ -93,7 +82,16 @@ namespace AoC2020.Solutions
         public string Mask { get; set; }
         public decimal Address { get; set; }
         public string AddressString { get; set; }
-        public decimal Value { get; set; }
         public string ValueString { get; set; }
+
+        public string ApplyMask2()
+        {
+            return new string(Mask.Select((c, i) => c == '0' ? AddressString[i] : c == '1' ? '1' : 'X').ToArray());
+        }
+
+        public string ApplyMask1()
+        {
+            return new string(Mask.Select((c, i) => c == 'X' ? ValueString[i] : c == '1' ? '1' : '0').ToArray());
+        }
     }
 }
