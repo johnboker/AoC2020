@@ -94,22 +94,12 @@ namespace AoC2020.Solutions
 
         public string ApplyMask2(string value, string mask)
         {
-            var n = new char[36];
-            for (var i = 0; i < 36; i++)
-            {
-                n[i] = mask[i] == '0' ? value[i] : mask[i] == '1' ? '1' : 'X';
-            }
-            return new string(n);
+            return new string(mask.Select((c, i) => c == '0' ? value[i] : c == '1' ? '1' : 'X').ToArray());
         }
 
         public string ApplyMask1(string value, string mask)
         {
-            var n = new char[36];
-            for (var i = 0; i < 36; i++)
-            {
-                n[i] = mask[i] == 'X' ? value[i] : mask[i] == '1' ? '1' : '0';
-            }
-            return new string(n);
+            return new string(mask.Select((c, i) => c == 'X' ? value[i] : c == '1' ? '1' : '0').ToArray());
         }
     }
 
