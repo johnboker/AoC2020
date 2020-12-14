@@ -43,30 +43,15 @@ namespace AoC2020.Solutions
 
         public void Solve1()
         {
-            var memory = new Dictionary<ulong, string>();
-            foreach (var m in Memories)
-            {
-                memory[m.Address] = m.ValueString;
-                var v = memory[m.Address];
-                memory[m.Address] = ApplyMask1(v, m.Mask);
-            }
-
+            var memory = new Dictionary<decimal, string>();
+            Memories.ForEach(m => memory[m.Address] = ApplyMask1(m.ValueString, m.Mask));
             Console.WriteLine(memory.Sum(a => (decimal)Convert.ToUInt64(a.Value, 2)));
         }
 
         public void Solve2()
         {
-            var memory = new Dictionary<ulong, string>();
-            foreach (var m in Memories)
-            {
-                var addresses = Expand(ApplyMask2(m.AddressString, m.Mask));
-
-                foreach (var address in addresses)
-                {
-                    memory[Convert.ToUInt64(address, 2)] = m.ValueString;
-                }
-            }
-
+            var memory = new Dictionary<decimal, string>();
+            Memories.ForEach(m => Expand(ApplyMask2(m.AddressString, m.Mask)).ForEach(a => memory[Convert.ToUInt64(a, 2)] = m.ValueString));
             Console.WriteLine(memory.Sum(a => (decimal)Convert.ToUInt64(a.Value, 2)));
         }
 
@@ -106,9 +91,9 @@ namespace AoC2020.Solutions
     public class Memory
     {
         public string Mask { get; set; }
-        public ulong Address { get; set; }
+        public decimal Address { get; set; }
         public string AddressString { get; set; }
-        public ulong Value { get; set; }
+        public decimal Value { get; set; }
         public string ValueString { get; set; }
     }
 }
