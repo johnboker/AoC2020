@@ -82,10 +82,9 @@ namespace AoC2020.Solutions
                 {
                     var a = s.ToArray();
                     a[idx] = '0';
-                    result.Add(new string(a));
+                    result[i] = new string(a);
                     a[idx] = '1';
                     result.Add(new string(a));
-                    result.RemoveAt(i);
                     i--;
                 }
                 i++;
@@ -95,48 +94,23 @@ namespace AoC2020.Solutions
 
         public string ApplyMask2(string value, string mask)
         {
-            var n = "";
+            var n = new char[36];
             for (var i = 0; i < 36; i++)
             {
-                if (mask[i] == '0')
-                {
-                    n += value[i];
-                }
-                else if (mask[i] == '1')
-                {
-                    n += '1';
-                }
-                else
-                {
-                    n += 'X';
-                }
+                n[i] = mask[i] == '0' ? value[i] : mask[i] == '1' ? '1' : 'X';
             }
-            return n;
+            return new string(n);
         }
 
         public string ApplyMask1(string value, string mask)
         {
-            var n = "";
+            var n = new char[36];
             for (var i = 0; i < 36; i++)
             {
-                if (mask[i] == 'X')
-                {
-                    n += value[i];
-                }
-                else if (mask[i] == '1')
-                {
-                    n += '1';
-                }
-                else
-                {
-                    n += '0';
-                }
+                n[i] = mask[i] == 'X' ? value[i] : mask[i] == '1' ? '1' : '0';
             }
-            return n;
+            return new string(n);
         }
-
-
-
     }
 
     public class Memory
