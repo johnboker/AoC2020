@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AoC2020.Solutions
@@ -29,50 +28,25 @@ namespace AoC2020.Solutions
 
         public int FindNumberSpokenOnTurn(int maxTurn)
         {
-            var spokenNumbers = new SortedDictionary<int, List<int>>(Numbers
+            var spokenNumbers = Numbers
                         .Select((n, i) => new
                         {
                             Number = n,
                             Index = i
                         })
                         .OrderBy(a => a.Index)
-                        .ToDictionary(k => k.Number, v => new List<int> { v.Index }));
+                        .ToDictionary(k => k.Number, v => v.Index + 1);
 
             var lastNumber = Numbers.Last();
 
             for (int turn = Numbers.Count(); turn < maxTurn; turn++)
             {
-                var numberOfTimesSpoken = spokenNumbers[lastNumber].Count;
-
-                if (numberOfTimesSpoken == 1)
-                {
-                    if (spokenNumbers.ContainsKey(0))
-                    {
-                        spokenNumbers[0].Add(turn);
-                    }
-                    else
-                    {
-                        spokenNumbers.Add(0, new List<int> { turn });
-                    }
-                    lastNumber = 0;
-                }
-                else if (numberOfTimesSpoken > 1)
-                {
-                    var lastTwo = spokenNumbers[lastNumber].TakeLast(2).ToList();
-                    var n = Math.Abs(lastTwo[0] - lastTwo[1]);
-                    if (spokenNumbers.ContainsKey(n))
-                    {
-                        spokenNumbers[n].Add(turn);
-                    }
-                    else
-                    {
-                        spokenNumbers.Add(n, new List<int> { turn });
-                    }
-                    lastNumber = n;
-                }
+                var next = spokenNumbers.ContainsKey(lastNumber) ? turn - spokenNumbers[lastNumber] : 0;
+                spokenNumbers[lastNumber] = turn;
+                lastNumber = next;
             }
 
-            return spokenNumbers.Where(a => a.Value.Any(b => b == maxTurn - 1)).FirstOrDefault().Key;
+            return lastNumber;
         }
     }
 }
